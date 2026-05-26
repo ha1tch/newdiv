@@ -55,6 +55,8 @@ The launch scripts auto-detect ZEsarUX in the following order:
 2. System `PATH`
 3. `./zesarux` in the current directory
 
+> **128K games:** the scripts launch in 48K mode by default, but esxDOS in USR 0 mode supports 128K software and AY audio. To enable this, open the launch script and change `--machine 48k` to `--machine 128k`. The MMC images need no changes. Note that 128K BASIC is not supported by esxDOS — the machine will still boot to a 48K prompt, which is normal.
+
 <div align="center">
 
 ![The GAMES directory — 152 titles ready to play](newdiv04.png)
