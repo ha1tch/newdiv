@@ -1,0 +1,302 @@
+
+v1.01
+
+- Stopped possible memory corruption when copying RAM to MMC banks from IM1 by disabling interrupts at the start of the NMI handler.
+- Caps Shift + Select now tries to execute (autostart for a .BAS file) the current file.
+- Added FXM plugin for Fuxoft music files.
+- Added FTC plugin for Fast Tracker music files.
+- Added PSC plugin for Pro Sound Creator music files. Playback of v1.0 files is not currently supported as the playback routine I found doesn't work with them.
+- Fixed issue where the stack for the browser code was overwriting and corrupting BASIC if you had a large BASIC program and used the .browse command (NMI version was okay).
+- Added check to No_MMC_Memory version of .browse command to stop large BASIC programs being overwritten by BROWSE.BIN. If BROWSE.BIN cannot be safely loaded with corrupting the BASIC area, 'Access denied' esxDOS error is now returned.
+- Further small optimisations in the browser code due to the removal of the old C code.
+
+v1.00
+
+* 100% assembly rewrite of the browser to further reduce size and improve overall performance.
+* NMI handler wasn't copying the 'real' bytes in bank 10 from 65024 - 65535 when it restored that section of memory. If you had POKEd that area of memory, the changes would be undone by the copy back of the memory taken before entering the NMI handler.
+* _SNA plugin now lets you overwrite an existing snapshot file.
+* Added code for ZX-UNO to optionally load .tap files in real time. This option can be enabled via .plugcfg using the TAP .ini file.
+* Ensure the _CLP clipboard plugin deletes /tmp/clip.tmp before starting a new copy / cut operation.
+* Added support for Sound Tracker Pro .stp modules with the STP plugin.
+* Fixed screen corruption when drawing text strings that exceed 255 pixels.
+
+v0.24
+
+* Assembly rewrite of the .brwscfg configuration tool as a 128 startup style menu driven program.
+* Fixed issue with certain Unicode characters in long filenames causing the filename to be displayed incorrectly.
+* Pressing Caps Shift + Enter inside the _TPE plugin will now autostart the .tap file from the selected entry.
+* Pressing Caps Shift + N inside the _TPE plugin lets you create a 0 byte empty .tap file for saving to. You can now access the _TPE plugin regardless of whether you have a .tap file attached.
+* If you tried to save a snapshot and the 128k shadow screen was paged in, a malformed .SNA file was being saved.
+* Added support for the modified divMMC CPLD firmware which has new mapram features. It should not affect existing divMMC or divIDE hardware.
+* Fixed an issue with plugin error messages not redrawing filenames when the message is cleared.
+* More refactoring of the graphic and background browser functions to reduce the size and improve the overall performance of the browser.
+
+v0.23
+
+* Large amounts of the long filename processing and FAT reading code were re-written in assembly language to try and improve performance. Anecdotally, a folder that used to take ~5 seconds to display now takes ~3 seconds.
+* _CLP plugin now displays an error if the /tmp/clip.tmp file doesn't exist.
+* _FUL fullscreen preview plugin would crash decoding a .z80 compressed screen if the RLE sequence went beyond the last byte of screen memory.
+* Updates to the key reading code when choosing a key in .brwscfg to work better with a real +2 keyboard - cursor key presses were not being detected.
+* Improvements to make the Kempston joystick handling more repsonsive on real hardware.
+* Holding a Kempston joystick Up / Down / Left and pressing the 2nd Fire button will now do the Home, End and Exit browser operations.
+* Added BRWSFONT dot command to let you change the browser font.
+* Lots of refactoring to various graphic and background functions to reduce the size and improve the overall performance of the browser.
+* TurboSound module playback was broken in the PT3 plugin.
+
+v0.22
+
+* Added _CLP 'clipboard' plugin which lets you copy (Symbol Shift + C), cut (Symbol Shift + T) and paste (Symbol Shift + P) a file from one folder to another location. Doesn't support copying multiple files or directories. This uses the copy file code from .2browse with the added features of warning you if the file you're pasting already exists in the destination folder and pressing BREAK during the copy progress now aborts the copy. Same limitations as in .2browse - files with long filenames get copied or moved with their 8.3 filename.
+* Added _TPE tape internal browser plugin. Now when you launch a .tap file or insert one (via Caps Shift + I), pressing Caps Shift + T in the browser pops up a dialog which lets you set the virtual tape head position for the currently open tape. Caps Shift + R rewinds the tape back to the start. Cursor Up / Down moves through the available tape positions, ENTER selects the current position and exits and BREAK exits without changing the tape position.
+* _HLP plugin now shows the commands dynamically - so only NMI, .dot and ZX-UNO commands are shown if they are valid. Help text is now displayed using the current font. Browse left / right moves backwards and forwards through the help pages. Previous .SCR help files have been removed.
+* .browse command now restores the BASIC screen colours and border correctly on exit.
+* File operations like delete, rename and folder creation are now handled by the _DOS plugin. This should work the same as before with more clearer messages for some of the operations and error codes.
+* Keeping Caps Shift held down when doing Caps Shift + C to start the ZX-UNO configuration plugin causes the configuration in UNOSTATE.001 to be automatically loaded and applied - if it exists. Pressing Symbol Shift + D in the configuration screen will also perform the same operation.
+* Plugins can now draw status icons to an area on the bottom status bar (between the disk units text and the stripe). Plugins that currently support this include the _TPE tape browser (shows a busy icon while processing the .tap file) and the MYM, PT1, STC, SQT, WAV, PT2 and PT3 music file plugins (shows a play symbol and next / previous track when navigating to the next / previous file).
+* Added .plugcfg option to the PT2 / PT3 plugin to make browser up / down do next / previous track and browser left / right do first / last track. 'Browser Up/Down Next/Prev song'.
+* Fixed a bug which was stopping plugin settings being loaded.
+* Fixed an issue with the WAV plugin where if you had the waveform display enabled and navigated to different files during playback, the screen and current file selection wasn't being updated correctly.
+* No_MMC-Memory version now supports the text viewer (Symbol Shift + V), viewing .TXT files and playing PT2 and PT3 files.
+* No_MMC-Memory version now uses the internal browser plugins for pokes (Caps Shift + K) and saving snapshot files (Caps Shift + S) to give it feature parity with the MMC version.
+* Made some optimisations to the LFN disk reading code.
+
+v0.21
+
+* No_MMC_Memory version now has basic support for plugins (_TXT, AY, POK, MG1, MG2, MG4, MID, MYM, PT2, PT3 and TXT plugins still don't work as they use additional MMC memory banks).
+* .plugcfg now uses separate .ini files for the plugins it supports rather than a single plugins.ini.
+* Speed dials weren't being saved if the _SPD.DAT file didn't already exist in the /BIN/BPLUGINS folder.
+* Show 'Working...' message when creating a browser cache file.
+* Time delayed message prompts can now be skipped over by pressing any key on the keyboard.
+* Fixed issue browsing files where file count and selection went out of bounds if you deleted the last file in a folder. (Fix ported from 2browse)
+* CFG file loading now works for plugins with less than 3 characters, e.g. .Z3 .
+* Symbol Shift + L now loads the _LOK internal plugin which locks out the 128k paging system (can cause issues with the earlier Ultimate Play The Game titles).
+* PZX plugin now restores the I register to the BASIC default $3f value to fix issue launching early Speedlock protected .pzx files from the NMI browser.
+* Modified _UNO configuration plugin to work with latest joystick splitter setting.
+* Added optional Sinclair 'stripe' in the bottom status line. This can be enabled through the .brwscfg dot command.
+* Updated default colour settings to use 128k power on menu and editor colours.
+* Info plugins (TAP, TRD, SCL) weren't drawing arrow graphics correctly to indicate multiple pages of information.
+* PT2 module playback was broken after the changes made in v0.20.
+
+v0.20
+
+* Added configurable plugin settings through the .plugcfg command. Plugins now support per plugin configuration files.
+* Added support for a 2nd fire button on Kempston joysticks that support it (tested on DivMMC Future and ZX_UNO). This button is bound to the parent directory hotkey.
+* WAV plugin now supports configurable waveform display during playback.
+* SCR plugin supports configurable slideshow mode and delay.
+* PT2 and PT3 plugins support configurable playback looping and automatically playing the next song when playback ends.
+* _UNO plugin now supports configuring options for the audio port $F7 (AY/SpecDrum/Beeper), Joystick Splitter and TurboSound.
+* _UNO plugin lets you save and load configurations to 'slots' so you can quickly switch between different machine configurations.
+* Added RAD plugin to load in Radistan format images.
+* .brwscfg now uses browser border setting.
+
+v0.19
+
+* Added HAM plugin to load in HAM8x1/HAM256 ULAPlus images.
+* Added ULA plugin to load in ULAPlus colour palettes for games.
+* _INF Plugin now supports displaying extended information like content listing for certain filetypes via information plugins stored in /BIN/BPLUGINS/INFO. Currently supports showing additional information for TAP, TRD and SCL files.
+* Previous fix in v0.17 to stop the NMI corrupting the current 128k memory bank broke snapshot saving on some 128k titles (Travel Through Time vol. 1).
+* Saving a snapshot could also cause a crash after exiting the NMI browser.
+* AY plugin now supports the custom browser font.
+* You can now specify a path with the .browse command to start the browser from a specific folder.
+* Enable 28mhz turbo when doing disk read functions to speed up the process on the ZX-UNO.
+* Added additional error checking to No_MMC_Memory version of NMI.SYS when the disk is full.
+* Moved full screen mode code into _FUL plugin. .browse dot command now supports showing compressed screens in fullscreen mode.
+* .browse command wasn't restoring the 8k memory block at address 40960 on exit.
+
+v0.18
+
+* Rewrote PZX plugin based on .loadpzx code. It now directly starts PZX files without having to spawn a temporary TAP file to do the loading. Hold down shift / tab to open a PZX file without auto loading.
+* Added internal UNO plugin to allow for advanced configuration of ZX-UNO options (Caps Shift + C). Existing ZX-UNO hotkeys have been disabled in the main browser - they now only work in the UNO configuration plugin.
+* SCR plugin now supports ULA plus .SCR files of 6976 bytes.
+* _SNA internal plugin now creates a filename automatically (SNAP_001.SNA, SNAP_002.SNA, etc.) if you just press ENTER when asked for the filename.
+* Fixed situation where the browser would deadlock if you had Kempston joystick support enabled but no Kempston joystick selected.
+* Was showing multiple devices as mounted disk images in the status bar.
+* Improvements to multiple drives support.
+* Attaching disks and tapes from the NMI browser stopped working due to a double closure of file handle (side effect of previous fix for file handle leak in the v0.17 NMI browser).
+* POK plugin and internal plugins _DSK, _INF, _POK, _SNA and _SPD now support the browser custom font file.
+* Fixed a bug in the autostart BASIC loader for SCL and TRD files if the BASIC filename to RUN was 7 characters long.
+
+v0.17
+
+* Saving .sna snapshot files (Shift + S) was broken in both the MMC and non MMC versions.
+* Fixed file handle leak in the NMI and .browse dot command which would cause the browser to eventually stop working (requiring a power cycle / hard reset) if you entered the browser via the NMI then autostarted a game continually.
+* Fixed issue on 128k machines where the file browser was getting corrupted if you entered the NMI in a game or demo that had switched the current memory bank.
+* Added WAV plugin for ZX-UNO which lets you playback 15625khz 8 bit unsigned mono .wav files.
+* Attach disk (Caps Shift + U) now supports SCL files on esxDOS 0.8.9
+* SCL plugin can now autoload SCL disk images directly on esxDOS 0.8.9 without having to convert to a temporary TRD file.
+* If you mounted a disk image as unit 0 and then another as unit 1 unit 0 was always being unmounted.
+* Browser now determines disk unit status on startup so it shows correct state of any attached disks.
+* Browser now shows '----' for empty disk units and 0123 for mounted units to match the ID used in the esxDOS .vdisk command.
+* Symbol Shift + O didn't call the function to eject the output tape.
+* Added function to eject a disk - Symbol Shift + U.
+* Initial support for custom external font file '/bin/browse.fnt'. See fonts/font_format.txt for more information.
+* Fixed reported issue where a filename starting with an ASCII character lower than '.' was sorted before the '..' parent directory listing.
+* TRD plugin will now try and autostart the first basic (B) file on the disk if there is no 'boot.b' present on the disk.
+* POK files now support a maximum of 128 POKE entries. Browser left and right keys now move between the screens of listed POKES.
+* Removed unsupported keys from the help screens for the No_MMC_Memory build.
+
+v0.16
+
+* Browser now disables ULAPlus palette on startup and restores it on exit.
+* Browser now disables Radastan mode on startup and restores it on exit (ZX-UNO only).
+* Added 'Auto detect device' option to the Advanced section in .brwscfg which works out the device number from the root folder rather than you having to set it. If you have this option enabled, it will override the value specified in 'Device Number'. Enable this option if you want the browser to support disks with multiple drives e.g. 'GOTO hd1'.
+* Initial browser support for multiple partition disks (hd0 / hd1 / ...).
+* Symbol Shift + V displays the selected file as text.
+* Added TXT plugin to view text files.
+* Removed 8 poke limit from the CAPS SHIFT + K POKE command.
+* Fixed FAT bug accessing sectors in the root cluster.
+* Fixed LFN handling bug that caused the wrong long filename to be associated with an 8.3 filename.
+* Caps Shift + D creates a 8.3 filename directory.
+* Modified Find Mode behaviour so that searching for a single character matches the first character of the filename - giving you a quick way to jump to the first file for a given character.
+* Find mode now shows 'Not found!' if it failed to find a matching entry.
+* Default colour for selection was incorrectly set to FLASH not BRIGHT.
+* Added AY plugin to play .ay Z80 music files.
+* Added ART and IPH plugins to handle hires C64 Art Studio and Interpaint files (needs ULAPlus for correct colours).
+* Added MYM plugin to playback MYM packed YM/PSG audio files.
+* Added Turbo Sound support to the PT3 plugin.
+* Added MID plugin to play back midi files. Requires appropriate hardware and .playmid dot command in /BIN.
+
+v0.15
+
+* Symbol Shift + Z will uncache a cached folder.
+* Symbol Shift + R lets you rename 8.3 style filenames.
+* You can now press BREAK when in a text input field (Save Snapshot, Rename, Poke) to abort the operation.
+* Initial version of ROM plugin which uses the code in .ownrom to load a .ROM file from the browser. Your ROM must be 16384 bytes.
+* Caps Shift + V will now launch the Browser hex file viewer so you can peek inside your files. Browser Up and Down moves the hex view backwards and forwards. Browser Left moves to the start of the file and Browser Right moves to the end. BREAK exits the viewer.
+* Fixed reset crash when doing file information (Caps Shift + R) on a directory entry. Thanks to @desUBIKado for the bug report.
+* Symbol Shift + 0 will let you assign the selected file to a speed dial (Symbol Shift 1 - 9). You will be prompted to select a speed dial to assign it to. If the speed dial is already in use you will have to confirm the new speed dial by pressing Shift + Y to overwrite it.
+* Plugins can now access browser settings so they can use the correct keyboard and colour settings. All the plugins that implement file navigation have been updated to use this new functionality.
+* POK plugin was always applying off values. Changed the UI so that space now toggles between 'Not Set', 'On' and 'Off'. If a poke is 'Not Set' it is ignored. For 'On' and 'Off' the relevant value is poked from the POK file. If the 'Off' value in the POK file is 0, it won't be applied. Thanks to @tom-cat and @alchemist for the bug reports.
+* .brwscfg now uses the current browser colour settings. You can also restore default settings by pressing D.
+* Fixed intermittent issue with the file selection going out of bounds after navigating to a cached folder. Thanks to @tom-cat for the bug report.
+* Fixed reported crash with browse .dot command when exiting after navigating into a cached folder. Thanks to @tom-cat for the bug report.
+* Fixed an issue where the wrong files were being selected in the folder after you quit out of certain plugins.
+* Updated browser help files to include missing and newly added hotkeys.
+
+v0.14
+
+* Added POK plugin to handle .pok files.
+* Added Find Mode (Shift + F) to search for files inside a folder. File Information has now been moved to Shift + R.
+* Added Speed Dial (Symbol Shift 1 - 9) keys to switch the browser to a specified folder or launch a specified file.
+* You can now create cache files for folders (Shift + Z) to speed up the access time for large folders.
+* Added file navigation keys to PT1, PT2, PT3, SQT and STC music player plugins.
+* Fixed issue with FAT32 folder reading code which would cause corrupted folder reads in some situations.
+* External command (Shift + L) caused a crash if you selected it for a file.
+* File Information now shows the date for a file.
+* Better handling of long filenames which get truncated - some filenames were overflowing the line.
+
+v0.13
+
+* New plugin system to handle multiple file types from the browser. Plugins are located in '/BIN/BPLUGINS'. See 'plugins/plugins_info.txt' for the list of supported files and 'plugins/plugins_sdk.txt' for technical information about writing your own browser plugin. Plugins are not supported by the 'No_MMC_Memory' version.
+* PZX file loading on the ZX-UNO now works from the NMI.
+* An 8.3 filename could end up being named with a left over LFN entry in the FAT.
+* Speed up navigation performance when moving the selection scrolls the file list up or down by a line.
+* External command (Shift + L) code stopped working after the previous changes to support MMC memory banks.
+* Couple of small optimisations to the FAT code.
+
+v0.12
+
+* NMI.SYS now uses DivMMC memory pages. This removes the need to save the contents of the memory to the TMP folder whih should remove the speed bottleneck / delay on certain brands of SD-Card when entering the NMI. Thanks to velesoft for providing information and advice on utilising the additional memory in the DivMMC. 'No NMI write (Slow SD Cards)' option in BRWSCFG is now deprecated.
+* .browse dot command now uses DivMMC memory pages to save / restore the memory.
+* Fullscreen browser now supports screen preview for v2/3 .z80 files (NMI only).
+* Fullscreen browser now shows 'DIR' text for directories.
+* If you saved a snapshot with the same name as an existing one, the operation would generate an error but the existing file was deleted.
+* Fixed redrawing issue when deleting some characters in the text input field.
+
+v0.11
+
+* Added fullscreen browser mode (toggle mode with Symbol Shift + F) which tries to show the loading screen from the currently selected .sna or .tap file.
+* Text is now displayed with proportional widths to show more characters in longer filenames.
+
+v0.10
+
+* Browser now shows '123/456' index in the status line to show the current file position in the directory.
+* Stop flickering when updating the text input field.
+* Increased key delay in the text input field to stop reported issues with key repeating.
+* Wasn't applying any key delay when pressing DELETE to remove characters.
+
+v0.09
+
+* Added setting 'Save last selection' to BRWSCFG. When enabled this writes a file /TMP/BROWSE.BMK which holds the current directory and selection index when you select an item for autostart or exit the browser. The next time you enter the browser - so long as the current directory hasn't changed - the selection is restored to the index from the bookmark. This may add a slight delay to autostarting and exiting as the 'bookmark' file is written to the disk.
+* BRWSCFG now has settings categories: Look, Input, Misc and Advanced - to allow the addition of more options. You can switch between the categories with cursor left and right.
+* Symbol Shift + I / O will eject the current input / output .tap.
+* Symbol Shift + X will now exit the browser with a reset.
+* Caps Shift + H now displays multiple help screens (/BIN/BRWSHLP1.SCR /BIN/BRWSHELP2.SCR).
+* If you tried to erase a folder with Caps Shift + E, you got an error code 16.
+* .SCR files are now shown if selected.
+* Fixed bug where you couldn't display file information or delete the first item in the root '/' folder.
+* File sorting now uses the long filename if available to avoid issues with 8.3 filenames that contain random characters that cause the sorting to put them in the wrong place.
+
+v0.08
+
+* Added setting 'No NMI write (Slow SD Cards)' to BRWSCFG which disables the saving of RAM when entering the NMI to stop delays on slow SD cards. Be aware that with this option enabled, saving snapshots and POKEs are disabled. It's also highly likely to cause a reset if you decide to exit the NMI browser with this setting enabled.
+* Shift + F file information now shows the size of the file in bytes.
+* Shift + E will erase the selected file. Press Shift + Y to confirm.
+* NMI.SYS now creates a /TMP/ folder if not present to stop a reported issue with saving snapshots when the folder isn't there.
+* NMIINIT .dot command can now takes a filename path as an optional parameter to load another NMI.SYS .
+
+v0.07
+
+* Initial support for saving snapshots in NMI. Shift + S now saves a 48k/128k .SNA file.
+* Initial support for POKEs in NMI. Shift + K lets you enter up to 8 POKES which are then applied when you exit.
+* Added support for X8 (28mhz) turbo mode on ZX-UNO (needs EXP27 core). Thanks to azesmbog for supplying the register information to enable this.
+* Shift + U now attaches a .TRD file to a virtual device (0-3). The attached devices are shown as 0123 in the bottom status line when attached.
+* Rewrote .SNA / .Z80 loading code to work more like the original esxdos NMI to fix reported issues.
+* Added setting 'Remember last folder' to BRWSCFG. If you're several levels deep in a folder tree, when you navigate to the parent folder, the highlight will be put on the folder you were just inside rather than back at the start of the entries for that folder.
+* Added additional delay for keypresses when moving the selection and not scrolling to make it less 'twitchy'.
+* Shift + L will now exit the browser and auto type the selected filename into BASIC (.dot command only).
+* Shift + F will now show information about the selected file.
+* Shift + I / O will attach the selected .TAP file to tape input / output.
+
+v0.06
+
+* Added NMI.SYS file so you can now use browse as an NMI replacement. Please note that PZX support is disabled when running from the NMI.
+* Kempston joystick support (enable in BRWSCFG).
+* Made navigation (up, down, left, right) and select keys user definable (set in BRWSCFG).
+* Shift + H now shows the in-app help (BIN/BRWSHELP.SCR).
+* Shift + N will now restart the NMI with the file SYS/NMI.ORG. So if you copied the esxdos NMI.SYS to this path, Shift + N would restart the NMI using the default esxdos NMI. To restore the browse NMI, either run the supplied .dot command NMIINIT or hard reset / power cycle your machine.
+* Shift + T cycles ZX-UNO turbo modes - none (3.5mhz), X2 (7mhz) and X4 (14mhz).
+* Shift + M cycles ZX-UNO machine / video timings - 48, 128 and Pentagon.
+* Added NMIINIT .dot command to restore the default SYS/NMI.SYS NMI handler (e.g. if you've done Shift+N and then want to switch back to the default NMI).
+* Previous hotkeys like Q, A and P now have to be SHIFTed.
+* PZX file are only autostarted if you're on a ZX-UNO.
+* If the long file name buffer is full up, the browser will fallback to using 8.3 filenames.
+* Increased maximum number of files allowed in a folder from 256 to 426.
+* Fix reported issue with directories that have 8.3 style filenames.
+* Added 'Working...' indicator text to show that something is happening for larger directories.
+* Replaced hacky .BAS file support with proper autostart support.
+
+v0.05
+
+* Fixed situation on FAT16 disks where the program fails to start and show the root folder contents.
+* Added settings file - BIN/browse.cfg. Colour settings and the esxdos disk device are now taken from this file rather than using hard coded values. Use the included BRWSCFG .dot command to adjust the browser's settings.
+* Large directory names weren't being truncated correctly.
+* Added .pzx support. Requires a ZX-UNO with .pzx support and the .loadpzx command in BIN (with thanks to the ghost of Daley Thompson's Supertest 128 :) ).
+* Added setting to display additional <DIR> text for directory entries.
+* FAT32 code now handles 32 bit clusters correctly.
+
+v0.04
+
+* You can now use cursor left / right to scroll up and down a page of files.
+* You can now use q and a keys to jump to the first and last entries in the list.
+* Fix possible issue using incorrect register when autostarting .tap files.
+* Optimisations to the 42 character print routine.
+* For FAT16 discs, the root cluster contains a set amount of directory entries and the code wasn't taking the size of this area into account when calculating the disk sector offset from the starting cluster of a directory entry. This would manifest itself as showing the root directory but showing garbage or empty lists for the subfolders. Thanks to Spezzi63 for supplying me with a HDF file to debug with.
+* Added .SNA and .Z80 autostart support via the .snapload dot command.
+
+v0.03
+
+* Added 42 character display.
+* Long filenames that spill over the screen are now truncated to fit the screen width and are indicated with an ellipsis character.
+* You can now select and autostart .trd files.
+
+v0.02
+
+* Now supports FAT32.
+* Improved directory handling - some folders were being truncated or listing garbage entries.
+* When you launch the browser it now starts from the current esxdos path, rather than dropping you back at the root folder every time.
+
+v0.01 - INITIAL RELEASE
+
+* FAT16 support.
+* Autostart .tap files.
+

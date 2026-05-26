@@ -1,0 +1,326 @@
+
+LCE
+IMG
+---
+
+Displays a .lce / .img (gigascreen) image. Requires 128k hardware. File must be 13824 bytes. Plugin supports the following keys:
+
+Cursor Left: Show previous screen
+Cursor Right: Show next screen
+Cursor Up: Show first screen
+Cursor Down: Show last screen
+Break: Exit viewer
+
+
+MG1
+---
+
+Displays a multi artist MG1 image file. Requires 128k hardware and is timed for Pentagon hardware (not classic). MG1 file must be 19456 bytes. Press any key to exit the viewer.
+
+
+MG2
+MG4
+---
+
+Displays a multi artist MG2/MG4 image file. Requires 128k hardware and is timed for classic hardware (not Pentagon). MG2 file must be 18688 bytes. MG4 file must be 15616 bytes. Press any key to exit the viewer.
+
+
+BAS
+---
+
+Autostarts a .bas file.
+
+
+PT1
+PT2
+---
+
+Plays a Pro Tracker 1.x / 2.0x music file. File must be less then 16384 bytes in length. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+PT2 Supports browser specific settings through .plugcfg PT2
+
+- Song Playback Loops: On / Off
+- Next Track When Song Ends: On / Off
+
+
+
+PT3
+---
+
+Plays a Pro Tracker 3.0 music file. File must be less then 28973 bytes in length. Also supports TurboSound (2 AY) modules. Requires TurboSound hardware / emulation and the pt3 file must have the '02TS' byte sequence at the end to be detected as a TurboSound module (You can use VortexTracker to save out a PT3 TurboSound with this marker if your PT3 TurboSound module doesn't have it). Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+Supports browser specific settings through .plugcfg PT3
+
+- Song Playback Loops: On / Off
+- Next Track When Song Ends: On / Off
+
+
+POK
+---
+
+Loads a .pok file which lets you apply various trainers to a game. .pok files must be smaller than 16384 bytes in length and only the first 128 'trainers' inside the file will be listed. The plugin doesn't remember which trainers you selected last time, so it will always startup with every trainer set to 'Not Set'. Selecting an entry cycles the state between 'Not Set', 'On' and 'Off'. If an entry is set to 'Not Set' it is skipped. If it is 'On', the on value from the .pok file is used. If it is 'Off' then the off value is used, so long as a value is specified. The '<<<' and '>>>' texts bottom line of the window indicate whether you can move to the previous or next page of pokes.
+
+.pok files tend to set the off value to 0, so to stop the game getting corrupted, 0 off values are not applied. .pok files can only be opened from inside the NMI browser.
+
+Browser Up / Down Navigation Keys: Move selection
+Browser Left: Move back 8 pokes
+Browser Right: Move forward 8 pokes
+Space: Toggle trainer not set / on / off
+Enter: Exit with selected trainers applied
+Break: Cancel / Exit
+
+
+PZX
+---
+
+Requires a ZX-UNO to work. Loads and starts a .pzx tape file. Hold down shift (or the tab key if this doesn't work for you) to attach the PZX file without autostarting it.
+
+
+SCL
+---
+
+Converts an .SCL disk image into a trimmed .TRD file. The converted .TRD file is then autostarted. The converted filename of the .TRD file will be the 8.3 filename of the .SCL file with a .TRD extension (GAME.SCL -> GAME.TRD). If you hold down SHIFT when you select the file, it won't be autostarted after conversion.
+
+On esxDOS 0.8.9 or higher, this will directly autostart the .SCL disk image without having to convert the file to a TRD disk image.
+
+
+SCR
+---
+
+Displays a .scr screen file. File must be 6912 bytes (colour screen), 6144 bytes (monochrome) or 6976 bytes (ULA plus screen). Plugin supports the following keys:
+
+Browser Left: Show previous screen
+Browser Right: Show next screen
+Browser Up: Show first screen
+Browser Down: Show last screen
+Shift + A: Toggle attributes (colour screen only)
+Break: Exit viewer
+
+Supports browser specific settings through .plugcfg SCR
+
+- Enable Slideshow: On / Off
+- Slideshow Timer Delay (seconds): 1-60
+
+
+SNA
+Z80
+---
+
+Autostarts a .sna / .z80 snapshot via the .snapload command. This needs to be in your /BIN folder.
+
+
+SQT
+---
+
+Plays a SQ Tracker music file. File must be less then 16384 bytes in length. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+
+STC
+---
+
+Plays a Sound Tracker music file. File must be less then 16384 bytes in length. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+
+TAP
+---
+
+Autostarts a .tap file. If you hold down SHIFT when you select the file the tape file is opened and attached but not autostarted.
+
+Supports browser specific settings through .plugcfg TAP
+
+- Real Tape Loading (ZX-UNO only): On / Off
+- Real Tape Inter Block Pauses: On / Off
+
+
+TRD
+---
+
+Autostarts a .trd disk image file. If the disk doesn't contain a 'boot    B', the browser will automatically create a TAP file which loads and runs the first BASIC (B) file it finds in the disk image. If you hold down SHIFT when you select the file the disk image is mounted and the browser switches to TR-DOS without autostarting the disk (requires /BIN/BPLUGINS/TRD.TAP).
+
+
+ROM
+---
+
+Loads and starts a 16k (16384 bytes) ROM file. Uses velesoft's .ownrom code to load the file into the divMMC memory and replace the real ROM contents. NMI is disabled until a hard reset - which also clears out the loaded ROM. Not all ROM images work correctly.
+
+
+ART
+IPH
+---
+
+Loads a hires (320 x 200 x 16 colours) C64 screen in Art Studio or Interpaint format. Needs ULAPlus to show the correct Commodore 64 colours. Image can be scrolled as the Spectrum screen is only 256 x 192 pixels. File must be 9002/9003 bytes long. Plugin supports the following keys:
+
+Browser Left: Show previous screen
+Browser Right: Show next screen
+Browser Up: Show first screen
+Browser Down: Show last screen
+1: Scroll screen up a line
+2: Scroll screen down a line
+3: Scroll screen character to the left
+4: Scroll screen character to the right
+Break: Exit viewer
+
+
+TXT
+---
+
+Basic text viewer. Standard ASCII characters displayed and lines are wrapped. No tab support. TXT file must be smaller than 16384 bytes or have less than 4096 lines.
+
+Browser Left: Show previous page
+Browser Right: Show next page
+Break: Exit viewer
+
+
+MYM
+---
+
+Plays a MYM packed YM/PSG audio file. File must be less then 33726 bytes in length. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+
+MID
+---
+
+Requires appropriate hardware to work. Loads and plays a .mid MIDI music file with the .playmid command. This needs to be in your /BIN folder. SPACE exits playback.
+
+
+AY
+--
+
+Plays AY chip and beeper .ay files. Currently supports the EMUL .ay file type. Be aware that some beeper .ay files play until they stop (Sabre Wulf) or can't be stopped once started (The Great Escape) and need a reset.
+
+Browser Left: Select previous song in file (when stopped)
+Browser Right: Select next song in file (when stopped)
+Space - Start / stop playback
+Break: Exit player (when stopped)
+
+
+WAV
+---
+
+Requires a ZX-UNO to work. Plays an 8-bit unsigned mono .wav file at 15625khz. You can use something like sox to convert your .wav file to the correct format.
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+Supports browser specific settings through .plugcfg WAV
+
+- Show Waveform Display: On / Off
+
+
+HAM
+---
+
+Displays HAM256 and HAM8x1 ULAplus image files. Supports 7680 byte HAM256 and 13056 byte HAM8x1 images. HAM8x1 images require Timex Display modes to be enabled via the UNO configuration plugin to display correctly. Image display code is currently timed for 48k models.
+
+Browser Left: Show previous screen
+Browser Right: Show next screen
+Browser Up: Show first screen
+Browser Down: Show last screen
+Break: Exit viewer
+
+
+ULA
+---
+
+Applies a 176 byte ULAplus palette tap file or a raw 64 byte palette file. These can be used to recolour existing Spectrum games.
+
+You can also create a container file with a .ULA extension. This is a text file with the following layout:
+
+ULA!
+PALETTE=ULAPLU~1/NINJAJAR.ULA
+GAME=NINJAJ~1.TAP
+
+This lets you specify a game and a colour palette using the 8.3 style filenames / path. When you select this file, it will automatically apply the ULAplus palette file specified by the PALETTE line and run the file in the GAME line.
+
+
+RAD
+---
+
+Requires a ZX-UNO to work. Displays a 'raw' 6160 byte image or a 16 colour BMP file (128 x 96 pixels, 6262 bytes) using the Radastan graphics format. You can create compatible bitmaps in a package like GIMP by resizing images to 128 x 96 pixels, reducing to 16 colours and saving as a BMP without colourspace information.
+
+Browser Left: Show previous screen
+Browser Right: Show next screen
+Browser Up: Show first screen
+Browser Down: Show last screen
+Break: Exit viewer
+
+
+STP
+---
+
+Plays a Sound Tracker Pro music file. File must be less then 16384 bytes in length. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+
+FXM
+---
+
+Plays a Fuxoft music file. File must be less then 16384 bytes in length. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+
+FTC
+---
+
+Plays a Fast Tracker music file. File must be less then 16384 bytes in length. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback
+
+
+PSC
+---
+
+Plays a Pro Sound Creator music file. File must be less then 16384 bytes in length. Playback of v1.0 files is not currently supported. Plugin supports the following keys:
+
+Browser Left: Play next file
+Browser Right: Play previous file
+Browser Up: Play first file
+Browser Down: Play last file
+Break: Stop playback

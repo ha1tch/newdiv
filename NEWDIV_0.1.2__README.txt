@@ -1,0 +1,213 @@
+================================================================================
+  NEWDIV 0.1.2  —  The ZX Spectrum Top 100 Collection, Volume II
+  Games 152 to 302  |  Titles: M through Z
+================================================================================
+
+  A NOTE OF THANKS
+  ----------------
+
+  If Volume I was the beginning of the story, Volume II is where things
+  get gloriously messy. This is the half of the collection where Manic
+  Miner meets Tetris, where Sabre Wulf brushes shoulders with SimCity,
+  where Rick Dangerous narrowly avoids Robocop. It is a reminder that the
+  ZX Spectrum's library was never one thing — it was arcade ports and epic
+  adventures, football sims and surreal art games, all squeezed into 48K
+  or 128K by people who refused to accept limitations.
+
+  The musicians, artists, and programmers behind these titles worked in an
+  era without the internet, without Stack Overflow, without version control.
+  They had the manual, a cup of tea, and sheer determination. The results
+  speak for themselves — and they're all here, ready to play.
+
+  This is Volume II. Pick up where you left off, or dive in anywhere.
+  There isn't a bad choice in the list.
+
+  And once again, deep thanks to the people who made this distribution
+  possible:
+
+    akeley       — for the curated top-100 collection that forms the heart
+                   of this release.
+                   https://archive.org/details/zxspectrum-top-100
+
+    Bob Fossil   — for tireless documentation and passion for the platform.
+                   http://www.thefossilrecord.co.uk/coding/100-machine-code/
+
+    Miguel Guerreiro & Mario Prato
+                 — creators of esxDOS, the firmware that makes DivMMC
+                   such a joy to use.
+                   https://www.esxdos.org/index.html
+
+    Cesar Hernandez Bano
+                 — creator of ZEsarUX, an emulator built with love and
+                   extraordinary depth.
+                   https://github.com/chernandezba/zesarux
+
+    Steve Wetherill
+                 — who worked on Nodes of Yesod (game 182), Robin of the
+                   Wood (game 213), and Projectyle at Odin, having cut his
+                   teeth at Software Projects porting Manic Miner and Jet
+                   Set Willy to the Amstrad CPC. A career in games that
+                   started there and never stopped.
+                   https://stevewetherill.substack.com/p/chapter-7-the-astronaut-and-the-sleeping
+
+  Thank you all for keeping the Spectrum alive and powerful.
+
+================================================================================
+  GAMES IN THIS VOLUME
+================================================================================
+
+    152. Mad Mix Game
+    153. Manic Miner
+    154. Marauder
+    155. Marsport
+    156. Match Day
+    157. Match Day II
+    158. Match Point
+    159. Maziacs
+    160. Mercenary
+    161. Micronaut One
+    162. Midnight Resistance
+    163. Mikie
+    164. Minder
+    165. Mined-Out
+    166. Monty Python's Flying Circus
+    167. Moon Strike
+    168. Motos
+    169. Movie
+    170. Mr. Freeze
+    171. Myth - History In The Making
+    172. NARC
+    173. Navy Seals
+    174. Nebulus
+    175. Nemesis The Warlock
+    176. Nether Earth
+    177. New Zealand Story, The
+    178. Nigel Mansell's World Championship
+    179. Night Gunner
+    180. Night Shift
+    181. Nightshade
+    182. Nodes Of Yesod
+    183. North & South
+    184. Operation Wolf
+    185. Pac-Mania
+    186. Pang
+    187. Peking
+    188. Penetrator
+    189. Phantis
+    190. Pheenix
+    191. Pinball
+    192. Ping Pong
+    193. Pipe Mania
+    194. Pippo
+    195. Popeye
+    196. Pssst
+    197. Puzznic
+    198. Pyjamarama
+    199. Quazatron
+    200. R-Type
+    201. Rainbow Islands
+    202. Ranarama
+    203. Rastan
+    204. Rebelstar
+    205. Rebelstar 2
+    206. Rebelstar Raiders
+    207. Renegade
+    208. Rescue
+    209. Rex
+    210. Rick Dangerous
+    211. Ring Of Darkness, The
+    212. River Rescue
+    213. Robin Of The Wood
+    214. Robocop
+    215. Robotron 2084
+    216. Rod-Land
+    217. Rogue Trooper
+    218. Roller Coaster
+    219. Saboteur
+    220. Saboteur II
+    221. Sabre Wulf
+    222. Sacred Armour Of Antiriad, The
+    223. Saint Dragon
+    224. Scuba Dive
+    225. Secret Diary Of Adrian Mole, The
+    226. Sentinel, The
+    227. Shadow Of The Beast
+    228. Shadowfire
+    229. SimCity
+    230. Sir Fred
+    231. Sir Lancelot
+    232. Skool Daze
+    233. Slightly Magic
+    234. Smash TV
+    235. Soldier Of Fortune
+    236. Space Crusade
+    237. Spellbound Dizzy
+    238. Spindizzy
+    239. Splat
+    240. Splitting Images
+    241. Spy Hunter
+    242. Spy Vs Spy
+    243. Star Raiders II
+    244. Star Wars
+    245. Starquake
+    246. Starstrike II
+    247. Stonkers
+    248. Stop The Express
+    249. Stormlord
+    250. Stunt Car Racer
+    251. Super Hang-On
+    252. Switchblade
+    253. TLL
+    254. Tai-Pan
+    255. Tapper
+    256. Target Renegade
+    257. Tau Ceti - The Special Edition
+    258. Technician Ted
+    259. Teenage Mutant Hero Turtles
+    260. Tempest
+    261. Terra Cresta
+    262. Tetris
+    263. Thanatos
+    264. They Stole A Million
+    265. Think!
+    266. Three Weeks In Paradise
+    267. Thrust
+    268. Thundercats
+    269. Total Recall
+    270. Track Suit Manager
+    271. Train Game, The
+    272. TrapDoor - Through The Trap Door
+    273. Trashman
+    274. Turbo Esprit
+    275. Turbo The Tortoise
+    276. Turrican
+    277. Turrican 2
+    278. Underwurlde
+    279. Universal Hero
+    280. Uridium
+    281. Viaje Al Centro De La Tierra
+    282. Viking Raiders
+    283. Vulcan
+    284. WEC Le Mans
+    285. Wanted Monty Mole
+    286. Way Of The Exploding Fist, The
+    287. West Bank
+    288. Wheelie
+    289. Where Time Stood Still
+    290. Who Dares Wins II
+    291. Wild Bunch, The
+    292. Winter Games
+    293. Wizball
+    294. Wonder Boy
+    295. World Series Baseball
+    296. World Series Basketball
+    297. Worse Things Happen At Sea
+    298. Wriggler
+    299. Xecutor
+    300. Xeno
+    301. Zynaps
+    302. Zzoom
+
+================================================================================
+  End of NEWDIV 0.1.2  —  This completes the Top 100 ZX Spectrum Collection
+================================================================================

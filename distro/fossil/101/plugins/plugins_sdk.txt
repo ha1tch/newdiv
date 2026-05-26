@@ -1,0 +1,269 @@
+
+
+Browser Plugin 'SDK' - bob_fossil 2020-23
+-----------------------------------------
+
+A plugin is piece of code assembled to address 32768. It has a maximum size of 8192 bytes. When you select a file in the browser, the 3 character extension is checked against a list of files in /BIN/BPLUGINS. If a matching file is found it is launched by the browser to handle the file. So if you selected 'Title.scr', the browser would look for a file called SCR in the /BIN/PLUGINS folder which would then be used to handle the file. If no matching file is found, the browser doesn't do anything with the file.
+
+
+Plugin structure
+----------------
+
+If you look at the source code supplied in the 'src' folder you will see that the plugins start with something like:
+
+--------------------------------------------------------------------------------
+
+include "plugin.asm"
+include "../esxdos.asm"
+
+	org PLUGIN_ORG
+
+	jr _plugin_start
+
+_plugin_info:
+
+	defb "BP"			; id
+	defb 0				; spare
+	defb 0				; spare
+	defb 0				; flags
+	defb 0				; flags2
+	defb ".FOO file plugin - bob_fossil", $0
+
+_plugin_start:
+ 
+	; hl is the filename
+
+    ; your plugin code goes here...
+
+--------------------------------------------------------------------------------
+
+The jr will skip over the header (limiting the header size to a maximum of 128 bytes). The header consists of a 2 byte ID marker - which isn't currently used followed by 4 bytes. If flags has PLUGIN_FLAGS1_COPY_SETTINGS set, a copy of the browser settings will be copied to the address after flags2.
+
+--------------------------------------------------------------------------------
+
+_plugin_info:
+
+	defb "BP"				; id
+	defb 0					; spare
+	defb 0					; spare
+	defb PLUGIN_FLAGS1_COPY_SETTINGS	; flags
+	defb 0					; flags2
+
+_plugin_user_data:
+
+	defs(PLUGIN_SETTING_MAX)		; reserve space for settings copy
+
+_plugin_id_string:
+
+	defb ".FOO file plugin - bob_fossil", $0
+
+_plugin_start:
+
+--------------------------------------------------------------------------------
+
+A zero terminated author description string follows.
+
+If your plugin uses the ix register, you need to 'push ix' on startup and 'pop ix' on exit as the z88dk compiled C code in the browser code uses ix.
+
+
+Parameters
+----------
+
+When your plugin is called from 32768, parameters are passed in via the following registers:
+
+hl - the 8.3 filename of the selected item from the browser.
+bc - address of the browser's parameter block.
+de - address of the config buffer or 0 - see Plugin Configuration section for more details.
+
+Parameter block
+---------------
+
+This is a section of memory inside the browser which contains the following information:
+
+Offset          Data
+
+0               last RAM bank paged in (128k only)
+1               1 if NMI version, 0 if not
+
+If your plugin uses memory outside of the 8k plugin range, you may need to copy data from the block as the block contents could get overwritten.
+
+
+Return codes
+------------
+
+The a register must be loaded with one or more of the following values when a plugin returns control to the browser:
+
+PLUGIN_OK - Plugin executed successfully.
+PLUGIN_RESTORE_SCREEN - Browser needs to redraw it's screen.
+PLUGIN_RESTORE_BUFFERS - Browser needs to rebuild it's filename buffers as the plugin used memory from 49152 (or higher).
+PLUGIN_NAVIGATE - Plugin wants the browser to restart it with the next / previous file.
+PLUGIN_STATUS_MESSAGE - Display a status message on successful exit.
+PLUGIN_ERROR - An error occured with the plugin.
+
+So to return that the plugin ran OK and to request the screen to be redrawn, you'd do:
+
+    ld a, PLUGIN_OK|PLUGIN_RESTORE_SCREEN
+    ret
+
+If your plugin adds or removes files from the current folder you need to return:
+
+    ld a, PLUGIN_OK|PLUGIN_RESTORE_SCREEN|PLUGIN_RESTORE_BUFFERS
+    ret
+
+This rebuilds the file buffer and redraws the files showing the updated state of the folder.
+
+Not all plugins return control on successful execution. The TAP, TRD, SNA and Z80 plugins will launch the respective file and not return control to the browser.
+
+
+Browser Settings
+----------------
+
+If you specfiy PLUGIN_FLAGS1_COPY_SETTINGS in the flags byte of the plugin header, the current browser settings are copied into the plugin (see Plugin Structure section). 
+
+_plugin_user_data contains the following information:
+
+Offset:      Description:
+
+0		Attribute value for the top line of the browser.
+1		Attribute value for the bottom line of the browser.
+2		Border colour.
+3		Attribute value for a file entry.
+4		Attribute value for a directory entry.
+5		Attribute value for the selected file entry.
+6		Disk device number (0-7).
+7		Flags.
+8		More flags.
+9		Scancode for browser Up.
+10		Scancode for browser Down.
+11		Scancode for browser Left.
+12		Scancode for browser Right.
+13		Scancode for browser Select.
+
+plugin.asm defines the following offset constants:
+
+PLUGIN_SETTING_OFFSET_TOP_LINE
+PLUGIN_SETTING_OFFSET_BOTTOM_LINE
+PLUGIN_SETTING_OFFSET_BORDER
+PLUGIN_SETTING_OFFSET_FILE
+PLUGIN_SETTING_OFFSET_DIRECTORY
+PLUGIN_SETTING_OFFSET_SELECTION
+PLUGIN_SETTING_OFFSET_DEVICE
+PLUGIN_SETTING_OFFSET_FLAGS
+PLUGIN_SETTING_OFFSET_FLAGS2
+PLUGIN_SETTING_OFFSET_KEY_UP
+PLUGIN_SETTING_OFFSET_KEY_DOWN
+PLUGIN_SETTING_OFFSET_KEY_LEFT
+PLUGIN_SETTING_OFFSET_KEY_RIGHT
+PLUGIN_SETTING_OFFSET_KEY_SELECT
+
+So to get the top line colour, you'd do:
+
+    ld a, (_plugin_user_data + PLUGIN_SETTING_OFFSET_TOP_LINE)
+
+and to check a keypress, e.g. the key assigned to browser up:
+
+include "plugin_keyboard.asm"
+
+    call _plugin_in_inkey		; get scancode into l
+
+    ld a, (_plugin_user_data + PLUGIN_SETTING_OFFSET_KEY_UP)
+    cp l
+
+
+File Navigation
+---------------
+
+The plugin can return PLUGIN_NAVIGATE if it wants to do something with another supported file in the same folder. If you returned this from the SCR plugin, this would be the correpsonding .scr file in the folder - e.g. PLUGIN_NAVIGATE_NEXT gets the next .scr file from the current file. If no such file exists, the plugin exits and returns control back to the browser. If you return this, you need to set the bc register to one of the following values:
+
+PLUGIN_NAVIGATE_NEXT - get the next supported file
+PLUGIN_NAVIGATE_PREVIOUS - get the previous supported file
+PLUGIN_NAVIGATE_FIRST - get the first supported file
+PLUGIN_NAVIGATE_LAST - get the last supported file
+
+    ld a, PLUGIN_NAVIGATE
+    ld bc, PLUGIN_NAVIGATE_NEXT
+    ret
+
+
+Error handling
+--------------
+
+If the plugin encountered an error it should set PLUGIN_ERROR in the return code. The bc register can point to a zero terminated error description text string (42 characters maximum) so the browser can display an error message in the status area. If bc is 0, then nothing is displayed. If you don't want a string displayed then set bc to 0 before returning.
+
+    ld a, PLUGIN_ERROR
+    ld bc, _err_msg
+    ret
+
+_err_msg:
+
+    defb "Unhandled file type.", $0
+
+
+Status messages
+---------------
+
+You can make the browser display a status message when the plugin exists by setting PLUGIN_STATUS_MESSAGE in the return code. This can be useful to tell the user that the plugin has completed successfully. Like the error message system, the bc register should point to a zero terminated status text string (42 characters maximum).
+
+
+Memory
+------
+
+Plugins assume a minimum 128k of pageable divMMC memory is available. The page usage is as follows:
+
+0,1,2,3,4 	    : Internal esxDOS usage
+5,6,7,8,9,10	: browser RAM backup pages (NMI and .dot command versions)
+11              ; Internal esxDOS usage (all RAM mode)
+12              : plugin RAM backup for browser code overwritten by the plugin at 32768
+13              : 8k scratch for plugin usage
+14              : 8k scratch for plugin usage
+
+If you need to use memory 41952 - 65535, remember to return PLUGIN_RESTORE_BUFFERS to ensure the browser rebuilds it's filename buffer which exists in the same address space.
+
+Hardware that doesn't support the divMMC memory paging system can use and have plugins developed for them. They only have access to 8k of memory from address 32768.
+
+
+Assembling
+----------
+
+The provided .asm plugin source uses z80-asm from the z88dk. You can use another assembler if you wish. The main issue seems to be the use of 'DEFC' to define values instead of 'equ'.
+
+
+Plugin Configuration
+--------------------
+
+Plugins can have configuration (.CFG) files which can hold a collection of on / off settings or arbitrary byte values. Currently, these are limited to 16 bytes in length. When a plugin is loaded by the browser, a matching .CFG file is looked for in the configuration folder:
+
+/BIN/BPLUGINS/CFG
+
+If the file exists, it is loaded into a memory buffer and the address of this settings buffer is passed into the plugin code through the de register. If de is 0, then no matching .CFG was found by the browser. So if we had a .SCR file and opened it with the SCR plugin, the browser would try and load plugin settings from:
+
+/BIN/BPLUGINS/CFG/SCR.CFG
+
+If you want to be able to adjust the settings of your plugin from the .plugcfg frontend, you need to create an .ini for it in:
+
+/BIN/BPLUGINS/CFG/
+
+So to define the settings for the SCR plugin, you would create a SCR.INI file.
+
+If you loaded this SCR/INI into a text editor, you should get something like:
+
+*******************************************************************
+;
+; Bitfield: <description>=B,<byte offset>,<bit>,<not used><default>
+; Byte: <description>=U,<byte offset><min 8 bit val>,<max 8 bit val>,<default>
+;
+Enable Slideshow=B,0,0,0,0
+Slideshow Timer Delay (seconds)=U,1,1,60,10
+
+The text before the = is the description shown in the .plugcfg dot command which lets you view and modify plugin settings. The first line adds an on / off bit option [B] at byte offset 0, bit [0] of the CFG file. The next value is ignored for bit options. By default it is off [0].
+
+You can pack in 8 options into one byte (0-7 bits).
+
+The second line defines how a configuration file can hold an arbitrary value:
+
+Slideshow Timer Delay (seconds)=U,1,1,60,10
+
+This defines a unsigned value [U] at byte offset 1 with a minimum allowed value of 1, a maximum value of 60 and a default value of 10. This can hold a single byte value between 0-255.
+
+In your plugin code, you need to test if the 'de' register is non zero and then set up your plugin based on the contents of the memory pointed to by it. Refer to the source code for the SCR and PT3 plugins to see how this can be achieved.
+

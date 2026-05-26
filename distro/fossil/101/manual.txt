@@ -1,0 +1,396 @@
+
+ZX-UNO / esxDOS File Browser v1.01 Manual
+-----------------------------------------
+
+Features
+--------
+
+- Long file name support.
+- Directories first A-Z, then files A-Z sort order for folders.
+- FAT16 / FAT32 file system support.
+- Support for multiple partition devices.
+- Initial support for browsing files on multiple disks (GOTO HD0, GOTO HD1).
+- Plugin system to autostart or handle files such as: .img, .mg1, .mg2, .mg4, .sqt, .pt1, .pt2, .pt3, .pok, .stc, .scl, .tap, .trd, .sna, .z80, .scr, .lce and .bas.
+- Custom ZX-UNO features to launch .pzx files, play .wav files, load .tap files in realtime and make changes to the configuration of the device.
+- ULAplus support and features.
+- Separate NMI version which lets you save .sna snapshots files and POKE memory.
+- Configurable colour scheme and fonts.
+- Kempston joystick support. Supports 2nd fire button if available (tested on DivMMC Future and ZX_UNO).
+- Fullscreen mode which previews the loading screen of the currently selected .tap, .sna or .z80 file.
+- Find mode to search for files inside a directory
+
+
+Requirements
+------------
+
+- A ZX Spectrum with at least 48k of RAM.
+- A DivMMC with 128k of additional memory (e.g. the DivMMC Future). For devices like the divIDE (or emulators that don't implement extra MMC memory pages) you are advised to install and use the files in the 'No_MMC_Memory' folder. (A ZX-UNO emulates a DivMMC with 128k of additional memory).
+- A ZX-UNO for .pzx and .wav support.
+- A ZX-UNO / additional hardware for ULAplus support.
+
+
+Installation
+------------
+
+Copy the BIN and SYS folders in the .zip file onto your SD-CARD.
+
+If you want to keep your existing / default esxDOS NMI.SYS do not copy the contents of the SYS folder across.
+
+If your device does not support additional MMC memory, you will also need to copy the folders in the No_MMC_Memory over the top of the files you copied across in the previous step.
+
+
+Running
+-------
+
+Enter .browse followed by ENTER from the BASIC prompt or if you've copied over the browse NMI.SYS file, just press the NMI button on your device. Pressing BREAK will return you to BASIC from .browse or the point you were at when you pressed the NMI button.
+
+
+Browser hot keys
+----------------
+
+Cursor Up - Move selection up.
+Cursor Down - Move selection down.
+Cursor Left - Move selection up a page.
+Cursor Right - Move selection down a page.
+ENTER - Select folder, auto start a .tap tape file, .trd disk file, .scl disk file (esxDOS 0.8.9 or higher required), .sna or .z80 snapshot file, .bas file or a .pzx ** file.
+Caps Shift + ENTER - Execute the current file / autostart as a .BAS file.
+Caps Shift + P / Delete - Parent Folder.
+Caps Shift + H - Show help screens (press any key to return to the browser).
+Caps Shift + X / Break - Exit the browser.
+Symbol Shift + X - Exit browser and reset.
+Caps Shift + Q - Move selection to the first entry.
+Caps Shift + A - Move selection to the last entry.
+Caps Shift + N - Switch over to default / custom NMI.SYS. Loads the file /SYS/NMI.ORG . If you copy the original esxDOS NMI.SYS file to NMI.ORG, Shift + N will switch over to this NMI. Please note that after switching you need to either run the supplied .dot command NMIINIT to restore the browser (or hard reset or power cycle). *
+Caps Shift + S - Save a 48k / 128k .sna snapshot. *
+Caps Shift + K - Enter a POKE. POKEs are applied when you exit the browser. *
+Caps Shift + L - External command. Types the currently selected filename back into the BASIC prompt. ***
+Caps Shift + R - Show additional file information for the selected file - 8.3 filename and size in bytes.
+Symbol Shift + R - Rename a file / folder. See 'Renaming Files' section.
+Caps Shift + F - Find Mode. See 'Find Mode' section.
+Caps Shift + U - Attach a .trd disk file to a unit (and .scl on esxDOS 0.8.9 and higher).
+Symbol Shift + U - Eject an attached disk from a unit.
+Caps Shift + I - Attach a .tap file to tape input.
+Caps Shift + O - Attach a .tap file to tape output.
+Symbol Shift + I - Eject tape attached to tape input.
+Symbol Shift + O - Eject tape attached to tape output.
+Caps Shift + E - Erase the selected file. Confirm with Shift + Y.
+Symbol Shift + F - Toggle fullscreen mode.
+Caps Shift + Z - Create a folder cache file. See 'Folder Caching' section.
+Symbol Shift + Z - Delete a folder cache file. See 'Folder Caching' section.
+Symbol Shift + 1 - 9 - Speed dials 1 to 9. See 'Speed Dials' section.
+Symbol Shift + 0 - Create speed dial from the current selection. See 'Speed Dials' section.
+Caps Shift + V - View the selected file as hex.
+Symbol Shift + V - View the selected file as text.
+Caps Shift + D - Creates a 8.3 filename directory. See 'Creating folders' section.
+Caps Shift + C - ZX-UNO configuration screen **
+Symbol Shift + L - Lock out 128k memory paging (e.g. to run certain Ultimate Play The Game titles correctly).
+Caps Shift + T: Browse the currently open .tap file in the browser. See 'Tape Browser' section.
+Symbol Shift + C: Copy file to clipboard. See 'File Clipboard' section.
+Symbol Shift + T: Cut file to clipboard. See 'File Clipboard' section.
+Symbol Shift + P: Paste file from clipboard. See 'File Clipboard' section.
+
+* NMI mode only.
+** ZX-Uno only.
+*** .dot command only
+
+
+Find Mode
+---------
+
+Caps Shift + F enables find mode for the current folder you are in (File Information has now been moved to Caps Shift + R). The top line will change to 'Find: ' to show you are in this mode. As you enter the text to find, the browser window will try and find the first matching file which has that text in it. Entering 'the' as the search phrase would, for example, match 'THE Great Escape' and 'Turbo THE Tortoise'.
+
+If no matching files are found, the browser selection returns to the first file in the list, flashes the border red and displays 'Not found!' in the top line. You can delete a character from the search text with DELETE. Once you've found your matching file, you can press ENTER to launch it.
+
+Pressing Caps Shift + F again will cycle through all the other matching file entries. BREAK exits find mode and returns you to normal browser mode and operation.
+
+If you enter a single character, the browser will move the selection to the first filename that starts with that character. Entering subsequent characters will match the characters anywhere in the file.
+
+Current limitations in Find Mode:
+
+- Your search phrase is limited to 16 characters.
+- Search is case insensitive - searching for 'jet' will match 'JET PAC' and 'Jet Set Willy'.
+- Navigation and hotkeys are disabled when you are in find mode.
+- Find mode only searches the current folder. It will not recurse into subfolders.
+
+
+Folder Caching
+--------------
+
+You can create cache files which store the folder contents in a 'cache.db' file inside that folder. If this file is found, the files and long filenames are loaded in one go from that file rather than having to read them individually off the disk and then sort them. This can speed up the read time for large folders (e.g. 100+ files). Pressing 'Caps Shift + Z' creates / updates an existing cache file for a folder. The top directory line shows a '*' at the end of the folder name when showing a cached folder. Creating cache files only makes sense for folders where there is a large number of files that don't change much or at all, e.g. a sub folder in a games collection.
+
+To stop using caching for a folder, select the folder that has caching and once the cached listing is shown, press 'Symbol Shift + Z' to delete the cache file.
+
+
+Speed Dials
+-----------
+
+You can jump to a specific folder or launch a specific file by using the speed dial system to associate them with the Symbol Shift 1 - 9 keypresses. You can  create a file:
+
+/bin/bplugins/_spd.dat
+
+which is a text file that can contain the following layout:
+
+1=/
+2=/tap/games
+3=/tap/demos
+4=/pzx
+5=/screens/gigasc~1
+6=/trdos
+7=/music
+8=/tap/games/manicm~1.tap
+
+A speed dial entry starts with a number from 1-9 followed by an equals sign and then a path on the disk starting with the / character. In the above example, speed dials are assigned to Symbol Shift 1-8. Symbol Shift + 1 navigates you to the root folder, whereas pressing Symbol Shift + 3 takes you  to 'demos' sub folder inside the 'tap' folder. Symbol Shift + 8 will launch Manic Miner. As you can see from the entries for speed dials 5 and 8, the paths are in 8.3 format and don't support long file names.
+
+You can also press Symbol Shift + 0 on a file or folder to assign it to a specific speed dial. You will be prompted to select which speed dial you want to use. If the speed dial you select is already defined, you will be prompted to overwrite it - you need to press Shift + Y to confirm.
+
+
+Renaming Files
+--------------
+
+Pressing 'Symbol Shift + R' for the selected file will let you rename it. This only works for 8.3 filenames. You can't rename long filenames as the browser doesn't have write support for long filenames and will end up mangling these filenames with no way to fix them from the browser. If you need to rename a long filename, use the file browser on your computer to do it properly.
+
+
+Creating folders
+----------------
+
+You can use 'Caps Shift + D' to create a directory in the current folder. This is limited to an 8.3 filename as the browser doesn't have write support for long filenames.
+
+
+ZX-UNO Configuration Screen
+---------------------------
+
+If you are running the browser on a ZX-UNO or compatible hardware, you can press 'Caps Shift + C' to open a special configuration screen which lets you change various settings and options on your ZX-UNO. Current options include:
+
+KBD Joystick - Set the joystick emulation option for the keyboard joystick: Kempston / Sinclair Port 1 / Sinclair Port 2 / Cursor / Fuller / QAOP space m
+
+KBD Joystick Autofire - Set the keyboard joystick autofire status: Off / On
+
+DB9 Joystick - Set the joystick emulation option for the DB9 port joystick: Kempston / Sinclair Port 1 / Sinclair Port 2 / Cursor / Fuller / QAOP space m
+
+DB9 Joystick Autofire - Set the DB9 port joystick autofire status: Off / On
+
+Joystick Splitter - Set the joystick splitter option: Off / On
+
+ULA Timing - Set the machine timing for the ULA chip: 48K / 128K / Pentagon
+
+Turbo Mode - Set the Z80 CPU turbo: 3.5 (x1) / 7 (x2) / 14 (x3) / 28mhz (x4)
+
+Keyboard - Set the keyboard issue: Issue 3 / Issue 2
+
+Scanlines (VGA display  only) - Set scanlines: Off / On
+
+Radastan Mode - Set the status of the extended Radastan graphic mode: Off / On
+
+Timex Display Modes - Set the status of the Timex display modes: Off / On
+
+ULA Plus - Set the status of the extended ULAplus graphic mode: Off / On
+
+Turbo Sound - Set the additional second AY support: Off / On
+
+Channel A / B / C / Beeper / Specdrum - Set the volume control for the specific audio channel:  Silent / Right / Left / Both
+
+Memory contention - Sets the state of contended memory. Off / On
+
+The plugin supports the following keys:
+
+SPACE - Toggle option value.
+BROWSER UP / DOWN - Move selection highlight.
+ENTER - Apply settings.
+BREAK - Exit without applying settings.
+
+The following accelerator keys are also defined to let you modify options quickly:
+
+Caps Shift + D - DB9 Joystick.
+Caps Shift + R - Radastan Mode.
+Caps Shift + X - Timex Display Modes.
+Caps Shift + P - ULA Plus.
+Caps Shift + U - Switch ULA timings.
+Caps Shift + T - Switch CPU turbo mode.
+Caps Shift + M - Switch machine ULA and contention timings - 48K / 128K / Pentagon.
+
+As there are quite a few options here you can save and load configurations to speed up switching between machine configurations.
+
+Once you've selected your desired configuration, press Symbol Shift + S and you'll be presented with 9 save slots. You can then select a slot to save to and give it a more meaningful description (up to a maximum of 32 characters). These files are saved to /BIN/BPLUGINGS/CFG/UNOSTAT.001 ... UNOSTAT.009 . To load a configuration back, from the main _UNO screen, press Symbol Shift + L. The available configurations are listed and you can select them by entering 1-9. Once the options menu is shown, press ENTER to apply your new configuration.
+
+Keeping Caps Shift held down when doing Caps Shift + C to start the ZX-UNO configuration plugin causes the configuration in UNOSTATE.001 to be automatically loaded and applied - if it exists. Pressing Symbol Shift + D in the configuration screen will also perform the same operation and load this 'default' configuration.
+
+
+Tape Browser
+------------
+
+esxDOS lets you insert .tap files so that when you issue a command such as:
+
+LOAD ""
+
+the tape data is loaded from the .tap file rather than from a real tape. If you had a game that required you to rewind the tape to a specific point in-game or if you had a .tap file that was a compilation of lots of files it wasn't easy (or possible inside a game) to rewind the tape or move to a specific point. The Tape Browser is designed to let you move the virtual tape head that esxDOS has inside the .tap file to a specific point.
+
+Pressing Caps Shift + T opens the Tape Browser. On startup, it pops up a window which lets you set the virtual tape head position for the currently open tape. The contents of the tape are presented as a list with a selection which can be moved with the Browser Up / Down keys. The current virtual tape head position is shown with a 'play' symbol at the start of the line.  If you don't have a tape file attached, the plugin will display 'No tape file to browse!' instead.
+
+Caps Shift + R rewinds the tape back to the start. ENTER sets the tape position to the current selection and exits Tape Browser whereas BREAK exits Tape Browser without changing anything.
+
+Caps Shift + Enter will autostart the tap from the selected entry. This is useful if you have a tape image of a compilation or magazine and want to load a specific program.
+
+Cap Shift + N lets you create a 0 byte empty .tap file for saving to.
+
+
+File Clipboard
+--------------
+
+The browser implements a simple clipboard which lets you put a single file onto it - copying multiple files or directories is not currently supported. You can either copy a file (Symbol Shift + C) on to the clipboard or cut a file (Symbol Shift + T). Once you have a file on the clipboard you can then paste the file with (Symbol Shift + P). If you copied, the file at the original location will be copied to the current directory. If you cut, the file is moved from it's original location to the current directory.
+
+You will be warned if the file you're trying to paste already exists in the folder. Whilst the file is being copied, pressing BREAK will abort the paste operation. Please be aware that files with long filenames will be copied or cut with their 8.3 filename.
+
+
+Fonts
+-----
+
+The browser includes a dot command '.brwsfont' in the BIN folder which lets you change the browser font. Previously you had to shuffle files around yourself but this automates the process. The fonts are stored in:
+
+/bin/bplugins/fonts
+
+The current list of fonts are:
+
+64
+BOLD
+SMART
+CEEPEE
+HITCH
+
+BOLD is a bold version of the standard proportional font.
+SMART is a version of the font used in the Retroleum Smart Card browser software.
+64 is a 64 character width file like Tasword-Two.
+CEEPEE is a version of the 5 pixel wide font used in +3 CP/M.
+HITCH is a fixed with 42 character font.
+
+From the BASIC prompt, you can do:
+
+.brwsfont 64
+.brwsfont bold
+.brwsfont -r
+
+The first two commands switch to the 64 character and bold fonts respectively. The final command restores the default browser font.
+
+The 64 character font displays more text at the cost of character legibility. If you've cached a folder before switching to the 64 character font, the filenames will be truncated based on the font that was in use when you create the cache. Uncaching and caching the folder should show the longer filenames.
+
+
+Kempston 2nd fire button support
+--------------------------------
+
+If you have enabled Kempston joystick support in .brwscfg and your divMMC interface supports the protocol, the second fire button can be used inside the file browser. You will also need a joystick that has a second fire button like a Sega Megadrive joypad (C button is 2nd fire).
+
+Press 2nd Fire - Parent folder
+Hold Up and Press 2nd Fire - Move to the first entry in the file list
+Hold Down and Press 2nd Fire - Move to the last entry in the file list.
+Hold Left and Press 2nd Fire - Exit the browser.
+
+
+Questions
+---------
+
+Q: When I launch the NMI, why does the border flash black and nothing happens?
+Q: When I start the BROWSE dot command, why does the border go black and nothing happens?
+Q: When I start the browser why does the border go blue and nothing happens?
+
+A: Most SD cards work with the browser 'Device number' set to 1. This is the default setting - however, some cards need this set to 0. If you get the black border and nothing happening problem, run the BRWSCFG .dot command, select the 'Advanced' category with cursor left / right and press ENTER to highlight the 'Device Number' option. Cursor up / down will change the value. Press ENTER again to set the new value and then press S to save the changes. If your disk has multiple partitions then you may need to set the device to a higher value.
+
+From v0.16 and onwards, BRWSCFG has an 'Auto detect device' option in the 'Advanced' category. If you turn this option on, the browser will try and work out the device from the file system automatically. When this option is enabled it overrides the value specified in 'Device Number'. You need this option enabled if you want the browser to support disks with multiple drives e.g. 'GOTO hd1'.
+
+Q: How do I configure options in the plugins?
+
+A: From v0.20 plugins can now support per plugin configuration files, e.g. the WAV plugin can load /BIN/BPLUGINS/CFG/WAV.CFG file for settings. The new .plugcfg command lets you configure settings for a specific plugin, e.g. Ensure you copy across the /BIN/BPLUGINS/CFG folder and the various .ini files inside it. If no file is present in the CFG folder, the plugin will default to it's normal behaviour.
+
+To configure a specific plugin - in this case the SCR plugin - from BASIC type:
+
+.plugcfg scr
+
+
+.plugcfg supports the following keys:
+
+Browser Up / Down - Select Option
+Browser Left / Right - Change option value
+Break - Exit without saving
+Enter - Exit and save
+
+Refer to 'plugins_info.txt' to see which plugins support configurable settings.
+
+
+Q: Why does launching your NMI or running your .browse dot command reset my 16k Spectrum?
+
+A: The browser won't work on a 16k machine as it uses memory from address 32768 onwards which isn't present on your machine.
+
+Q: My esxDOS hardware doesn't have 128k of extra memory so I've installed the files from the 'No_MMC_Memory' folder - what doesn't work?
+
+A: Without extra memory, the browser falls back to loading and saving the RAM to disk when you enter and exit the NMI. This can be very slow on certain brands of SD Cards. Plugins that require additional MMC memory will display a message (This plugin requires a divMMC!) if you try and open the file.
+
+Q: On the No_MMC_Memory version, why does it take 15-17 seconds to enter the browser when I press the NMI?
+
+A: On first run, the browser checks for the /TMP folder and creates it if it isn't there. It then tries to open and writes the contents of the RAM (49152 bytes) to a file /TMP/BROWSE.NMI. Creating the /TMP folder and BROWSE.NMI file for the first time seems to take more time.
+
+Q: The No_MMC_Memory version is still taking 15-17 seconds to enter the NMI browser after the first run.
+
+A: If you're still getting a significant delay on subsequent NMI presses, the delay may be due to the write speed of the SD card / ESXDOS hardware. On 2 SanDisk cards I have, the delay is 1-2 seconds. On another Samsung Micro SD card inside an SD card adapter the delay increases to 15-17 seconds. So if possible, try another brand of SD card to see if you get better results. You can also run BRWSCFG and turn on the 'No NMI write (Slow SD Cards)' option. This will run the NMI without saving the RAM to a file on startup. This will still let you use the NMI as a fast file browser to autostart your .tap, .trd and snapshot files but snapshot saving and POKEs are disabled and the browser will invariably reset or crash when you exit the NMI as it can't restore the memory it overwrote.
+
+Q: When I start the No_MMC_Memory version via the NMI, why does the border briefly flash red or magenta and then do nothing?
+
+A: The NMI browser could not start up correctly. A red border indicates the browser could not create the /TMP folder in the root folder or it couldn't find it on the disk. A magenta border means the browser could not write the contents of RAM to the the TMP folder. Both of these failures indicate a problem with the disk. Check the disk has not run out of free space and does not have any filesystem errors.
+
+Q: Can I change the colour scheme?
+Q: Can I use a Kempston joystick?
+Q: Can I use an Interface II joystick?
+Q: Can I redefine the movement keys?
+Q: Can I make the browser remember the last folder I was on when I navigate to it's parent folder?
+Q: Can I make the browser remember the last file I was on the next time I enter the browser?
+Q: Can I add a Sinclair style rainbow stripe to my bottom status line?
+
+A: Yes. Run the supplied .dot command BRWSCFG config program. This is a menu driven program which uses the same navigation keys as the browser - so the cursor keys and ENTER by default or your Kempston joystick if that option is enabled. Inside the browser, if your Kempston joystick supports two fire buttons then the second fire button will do the parent directory action (tested on DivMMC Future and ZX-UNO).
+
+Q: I used Shift + N to switch to another NMI? Is there a way to switch back without a hard reset or power cycle?
+
+Yes. Run the NMIINIT .dot command. This will reinstate the file at /SYS/NMI.SYS . You can also pass in a file path parameter to switch to another NMI.SYS.
+
+Q: Why isn't the loading screen from my .tap file not being shown in fullscreen mode?
+
+A: The browser tries to find a loading screen by looking inside the .tap file for a standard SCREEN$ block (address 16384, length 6912) or a block of code that starts at screen memory (address 16384). If the .tap file doesn't use a screen block, it may be loading code to an arbitrary address and executing that to create the loading screen - e.g. to unpack a compressed screen. BASIC loading screens, e.g. Jet Set Willy are also not supported.
+
+Q: Why isn't your browser showing all the files in my folder?
+Q: Why are some of the long filenames in my folder showing as 8.3 filenames?
+
+A: There is a fixed buffer (8k) for the 8.3 filenames, so the browser can only show 426 files in a folder. You could try splitting the folder up so there are fewer files and see if this resolves the issue. There is another fixed buffer (8k) to store the long filenames. Long filenames are not fixed size and could be up to 255 characters in length. In a worst case scenario of a folder with 426 files, the average length of the long filename would be roughly 19 characters per filename. Normally this balances out as you get a mixture of short, medium and long filenames which all fit inside the buffer. When the long filename buffer is full, the code falls back to using the 8.3 filenames for the remaining files. The choice here was that showing 8.3 filenames would be better than not showing them at all.
+
+Q: Why isn't your browser showing files I've recently copied into a directory?
+Q: Why is there a '*' shown after the current directory top line status?
+
+A: You have previously created a folder cache file for the folder. Press Caps Shift + Z to rebuild the cache file which will include any changes made to the folder since the cache was created. If you want to remove the cache for a folder, navigate to the folder with the browser and then press Symbol Shift + Z to delete the folder cache file. The directory will no longer be cached.
+
+Q: When I try to load Jet Pac, Cookie, Sabre Wulf or other early Ultimate Play The Game titles on my 128k / +2 with your browser, why is the game corrupted or only displaying a black screen in game?
+
+A: For reasons only known to Ultimate, some of their early games use a machine code sequence that also happens to activate the 128k memory paging hardware on later Spectrums. On the 16k and 48k models this sequence doesn't do anything but it causes all sorts of problems on 128k hardware - typically you'll get a black screen as soon the game starts. If you encounter this problem, before loading the problematic Ultimate title, press Symbol Shift + L to lock out the 128k memory paging. This disables the 128k memory paging hardware until you power cycle or hard reset the machine.
+
+Q: Why is the snapshot I saved from <game name> crashing or glitching when I reload the snapshot later on?
+
+A: As a first step, take my browser out of the equation and use the standard esxDOS NMI menu and create the snapshot with that. Does it load the snapshot back correctly from the esxDOS NMI menu or from basic using the .snapload command? If this doesn't work then it's an esxDOS limitation. The .128k SNA format and the way that esxDOS gets and restores Z80 registers in it's NMI handler is not ideal for specific games. If the game is using the stack pointer at the point of snapshot this is likely to go wrong. Emulators can always save perfect snapshots - but it's not always possible on real hardware. Back in the day on my + 2 when I had a Plus D disk interface which could do disk snapshots and a Multiface 128 for saving to tape there were a couple of games that just didn't like being 'frozen' and snapshotted. Possible workarounds to this may be to use an in-game pause feature (if available) before taking the snapshot or inside a different screen or in-game menu.
+
+Q: Why does the No_MMC_Memory version of .browse return the error message 'Access Denied' when started from BASIC?
+
+A: The .browse dot command loads BROWSE.BIN to an address above 32k. If you have a large BASIC program in memory when you launch .browse, this will be corrupted when BROWSE.BIN is loaded in. The No_MMC_Memory version of .browse will detect this situation and return the esxDOS error code 'Access Denied' to stop any corruption occuring. Either reset your machine or enter the NEW command to clear space for BROWSE.BIN in BASIC. The NMI version does not have this limitation. The divMMC version of .browse is also unaffected.
+
+
+Information
+-----------
+
+Tools Used:
+
+MX Linux (laptop)
+z88dk - assembler and low level API documentation for esxDOS
+Ghidra - for reversing esxDOS .dot commands and the NMI.SYS
+Codelite - for PC FAT C code development
+Tiny Hexer (Wine) - hex editor for looking at SD card disk images
+Fuse / ZEsarUX - testing / debugging code in an esxDOS environment
+RetroVirtualMachine - testing code in a virtual ZX-UNO environment
+hdfmonkey - HDF file creation and manipulation for SpecEmu/Fuse testing
+SciTE - Text / source code editor
+
+bob_fossil 2020-25
+
+
+

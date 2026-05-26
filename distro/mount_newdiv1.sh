@@ -1,0 +1,1 @@
+hdiutil attach -imagekey diskimage-class=CRawDiskImage newdiv1/newdiv1.mmc

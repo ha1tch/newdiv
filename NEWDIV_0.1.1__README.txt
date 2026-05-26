@@ -1,0 +1,213 @@
+================================================================================
+  NEWDIV 0.1.1  —  The ZX Spectrum Top 100 Collection, Volume I
+  Games 1 to 151  |  Titles: # and A through L
+================================================================================
+
+  A NOTE OF THANKS
+  ----------------
+
+  These games represent something remarkable. They were written by small
+  teams — often single bedrooms, often teenagers — and yet they burned
+  themselves into the memories of an entire generation. The rubber keys,
+  the loading screens, the tension of a cassette that might just fail at
+  98%... and then the reward of a world opening up on a 48K machine that
+  by rights shouldn't have been able to hold it.
+
+  The developers and artists behind these titles — many working at
+  companies like Ultimate Play the Game, Ocean, Software Projects, Odin
+  Computer Graphics, Incentive, Design Design, Hewson, and countless 
+  others — built something that still holds up. The invention, the 
+  humour, the sheer stubbornness of making isometric 3D work on a 
+  Speccy... it deserves to be celebrated and kept alive.
+
+  So here is Volume I. Load it up. Enjoy them all over again.
+
+  And a warm, heartfelt thank you to the people who made this distribution
+  possible:
+
+    akeley       — for the curated top-100 collection that forms the heart
+                   of this release.
+                   https://archive.org/details/zxspectrum-top-100
+
+    Bob Fossil   — for tireless documentation and passion for the platform.
+                   http://www.thefossilrecord.co.uk/coding/100-machine-code/
+
+    Miguel Guerreiro & Mario Prato
+                 — creators of esxDOS, the firmware that makes DivMMC
+                   such a joy to use.
+                   https://www.esxdos.org/index.html
+
+    Cesar Hernandez Bano
+                 — creator of ZEsarUX, an emulator built with love and
+                   extraordinary depth.
+                   https://github.com/chernandezba/zesarux
+
+    Steve Wetherill
+                 — who ported Manic Miner and Jet Set Willy (game 130)
+                   to the Amstrad CPC at Software Projects, expanding
+                   JSW from 60 to 132 screens and composing its music.
+                   He went on to Nodes of Yesod, Robin of the Wood, and
+                   Projectyle at Odin, and kept going from there.
+                   https://stevewetherill.substack.com/p/chapter-7-the-astronaut-and-the-sleeping
+
+  Thank you all for keeping the Spectrum alive and powerful.
+
+================================================================================
+  GAMES IN THIS VOLUME
+================================================================================
+
+    1.   180
+    2.   3D Starstrike
+    3.   APB
+    4.   Academy
+    5.   Agent X
+    6.   Alchemist
+    7.   Alien
+    8.   Alien 8
+    9.   All Or Nothing
+    10.  Ant Attack
+    11.  Antics
+    12.  Arkanoid
+    13.  Astro Marine Corps
+    14.  Astroball
+    15.  Atic Atac
+    16.  Auf Wiedersehen Monty
+    17.  Avalon
+    18.  Avenger
+    19.  Back To School
+    20.  Bard's Tale, The
+    21.  Batman
+    22.  Batman - The Movie
+    23.  Batty
+    24.  Beach-Head
+    25.  Block-Dizzy
+    26.  Bobby Bearing
+    27.  Bomb Jack
+    28.  Booty
+    29.  Boulder Dash
+    30.  Bounder
+    31.  Bounty Bob Strikes Back
+    32.  Bruce Lee
+    33.  Bubble Bobble
+    34.  Bugaboo The Flea
+    35.  Buggy Boy
+    36.  Bumpy
+    37.  CJ's Elephant Antics
+    38.  Carrier Command
+    39.  Chaos
+    40.  Chase H.Q.
+    41.  Chronos
+    42.  Chuckie Egg
+    43.  Cobra
+    44.  Codename MAT
+    45.  Combat School
+    46.  Commando
+    47.  Computer Scrabble
+    48.  Confuzion
+    49.  Contact Sam Cruise
+    50.  Continental Circus
+    51.  Cruising On Broadway
+    52.  Crystal Kingdom Dizzy
+    53.  Cybernoid
+    54.  Cybernoid II - The Revenge
+    55.  Cyclone
+    56.  Daley Thompson's Decathlon
+    57.  Daley Thompson's Supertest
+    58.  Dan Dare
+    59.  Dandy
+    60.  Dark Star
+    61.  Deactivators
+    62.  Deathchase
+    63.  Deflektor
+    64.  Deus Ex Machina
+    65.  Doomdark's Revenge
+    66.  Dragontorc
+    67.  Driller
+    68.  Dun Darach
+    69.  Dynamite Dan
+    70.  Dynamite Dan II
+    71.  Earthlight
+    72.  Elite
+    73.  Emlyn Hughes International Soccer
+    74.  Enduro Racer
+    75.  Enigma Force
+    76.  Equinox
+    77.  Eric & The Floaters
+    78.  Exolon
+    79.  F-16 Combat Pilot
+    80.  Fairlight
+    81.  Fantasy World Dizzy
+    82.  Fat Worm Blows A Sparky
+    83.  Fernando Martin Basket Master
+    84.  Feud
+    85.  Fiendish Freddy's Big Top O' Fun
+    86.  Finders Keepers
+    87.  Firefly
+    88.  Firelord
+    89.  Flying Shark
+    90.  Football Manager
+    91.  Football Manager 2
+    92.  Formula One
+    93.  Frankie Goes To Hollywood
+    94.  Fred
+    95.  Full Throttle
+    96.  Future Games
+    97.  Gauntlet
+    98.  Ghost 'N Goblins
+    99.  Ghostbusters
+    100. Glass
+    101. Golden Axe
+    102. Great Escape, The
+    103. Green Beret
+    104. Grumpy Gumphrey Supersleuth
+    105. Guardian II - Revenge Of The Mutants
+    106. Gunfright
+    107. Gunrunner
+    108. Gyroscope
+    109. Harrier Attack
+    110. Head Over Heels
+    111. Heavy On The Magick
+    112. Hero Quest
+    113. Highway Encounter
+    114. Hijack
+    115. Hobbit, The
+    116. Horace Goes Skiing
+    117. Hudson Hawk
+    118. Hyper Sports
+    119. Hyperaction
+    120. I Ball II
+    121. IK+
+    122. Ikari Warriors
+    123. Impossible Mission
+    124. International Cricket - Test Cricket
+    125. International Match Day
+    126. Into The Eagle's Nest
+    127. Ivan Ironman Stewart's Super Off Road
+    128. Jack The Nipper
+    129. Jack The Nipper II - In Coconut Capers
+    130. Jet Set Willy
+    131. Jetpac
+    132. Jumping Jack
+    133. Kayleth
+    134. Killed Until Dead
+    135. Knight Lore
+    136. Knight Tyme
+    137. Knot In 3D
+    138. Kokotoni Wilf
+    139. Kwik Snax
+    140. La Abadia del Crimen
+    141. Laser Squad
+    142. Last Ninja Remix
+    143. Leader Board
+    144. Lemmings
+    145. Licence To Kill
+    146. Light Force
+    147. Lode Runner
+    148. Lords Of Chaos
+    149. Lords Of Midnight
+    150. Lotus Esprit Turbo Challenge
+    151. Lunar Jetman
+
+================================================================================
+  End of NEWDIV 0.1.1  —  Volume II (M-Z) continues in NEWDIV 0.1.2
+================================================================================

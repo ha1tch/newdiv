@@ -1,0 +1,61 @@
+
+Browser font format
+-------------------
+
+You can change the main browser font by creating a font file - BROWSE.FNT, a binary file which lives in the /BIN directory. This is loaded on startup by the browser. If the file is not present, the default browser font is used to display text.
+
+It supports the normal Spectrum ASCII range (0x20-0x7f) with an additional character 0x80 for the '...' truncated long filename ellipsis.
+
+Each character takes 8 bytes. There are 97 characters, so the entire character set takes 776 bytes.
+
+Example layout
+--------------
+
+You can use an assembler to generate the font file. This needs to be a binary file, so make sure your assembler doesn't add any headers or additional bytes. The output file must be 776 bytes.
+
+The characters are defined as follows:
+
+    org 32768           ; not important but keeps the assembler happy
+
+	; SPACE 0x20
+	defb 4		       ; width
+	defb %00000000
+	defb %00000000
+	defb %00000000
+	defb %00000000
+	defb %00000000
+	defb %00000000
+	defb %00000000
+	; ! 0x21
+	defb 3             ; width
+	defb %10000000
+	defb %10000000
+	defb %10000000
+	defb %10000000
+	defb %00000000
+	defb %10000000
+	defb %00000000
+
+	; << and so on ...>>
+
+	; (c)
+	defb 0             ; width
+	defb %01110000
+	defb %10101000
+	defb %11001000
+	defb %11001000
+	defb %10101000
+	defb %01110000
+	defb %00000000
+	; ellipsis
+	defb 0             ; width
+	defb %00000000
+	defb %00000000
+	defb %00000000
+	defb %00000000
+	defb %10101000
+	defb %10101000
+	defb %00000000
+
+A character is 8 bytes. The first byte is the width of the character. Set this to 0 if the width is the default character width (6 pixels). For example, you might set ths to 3 for a narrow character like an exclamation mark (!). The font code assumes the maximum character width is 6 pixels. The 7 bytes following the width byte are the character data in byte format.
+
