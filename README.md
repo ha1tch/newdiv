@@ -55,6 +55,12 @@ The launch scripts auto-detect ZEsarUX in the following order:
 2. System `PATH`
 3. `./zesarux` in the current directory
 
+<div align="center">
+
+![The GAMES directory — 152 titles ready to play](newdiv04.png)
+
+</div>
+
 ### Mount (macOS — inspect the image directly)
 
 ```bash
