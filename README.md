@@ -76,15 +76,22 @@ The launch scripts auto-detect ZEsarUX in the following order:
 
 If you want to repopulate the `.mmc` images yourself from akeley's collection:
 
-1. Download [ZXSpectrumTop100-noDoc](https://archive.org/details/zxspectrum-top-100) and unpack it somewhere.
-2. Open `distro/makediv1.sh` and `distro/makediv2.sh` and set the two variables at the top:
+1. Create the empty MMC images:
+
+```bash
+hdfmonkey create newdiv1/newdiv1.mmc 64M
+hdfmonkey create newdiv2/newdiv2.mmc 64M
+```
+
+2. Download [ZXSpectrumTop100-noDoc](https://archive.org/details/zxspectrum-top-100) and unpack it somewhere.
+3. Open `distro/makediv1.sh` and `distro/makediv2.sh` and set the two variables at the top:
 
 ```bash
 GAMES_SRC="/path/to/ZXSpectrumTop100-noDoc"   # <-- set this
 MMC="newdiv1/newdiv1.mmc"                       # <-- set this if needed
 ```
 
-3. Run:
+4. Run:
 
 ```bash
 bash distro/makediv1.sh
